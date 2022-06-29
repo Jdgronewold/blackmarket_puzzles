@@ -24,11 +24,7 @@ func validToken(t *jwt.Token, id string) bool {
 	claims := t.Claims.(jwt.MapClaims)
 	uid := int(claims["user_id"].(float64))
 
-	if uid != n {
-		return false
-	}
-
-	return true
+	return uid == n
 }
 
 func validUser(id string, p string) bool {
@@ -61,6 +57,7 @@ func CreateUser(c *fiber.Ctx) error {
 	type NewUser struct {
 		Username string `json:"username"`
 		Email    string `json:"email"`
+		Name    string `json:"name"`
 	}
 
 	db := database.DB

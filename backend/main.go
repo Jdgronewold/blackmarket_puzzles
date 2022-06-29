@@ -2,6 +2,7 @@ package main
 
 import (
 	"blackmarket_puzzles/router"
+	"fmt"
 	"log"
 
 	"blackmarket_puzzles/database"
@@ -17,5 +18,6 @@ func main() {
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
+	fmt.Print("App running on 3001")
 	log.Fatal(app.Listen(":3001"))
 }
