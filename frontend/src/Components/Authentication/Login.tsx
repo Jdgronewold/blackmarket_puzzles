@@ -14,47 +14,61 @@ import {
 import { Hide, View } from "grommet-icons";
 
 import React from "react";
-import { signUpRequest } from "Api/signup";
+import { loginRequest } from "Api/login";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userAdded } from "State/User/userReducer";
 
-export const SignUp = () => {
-  const [name, setName] = React.useState("");
+export const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [revealPassword, setRevealPassword] = React.useState(false);
   const [serverError, setServerError] = React.useState("");
 
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
 
   const onChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (event: React.ChangeEvent<HTMLInputElement>) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (serverError) {
+        setServerError("")
+      }
       setter(event.target.value);
+    }
+      
 
   const onSubmit = async (
-    event: FormExtendedEvent<{ name: string; email: string; password: string }>
+    event: FormExtendedEvent<{ email: string; password: string }>
   ) => {
+    const value = event.value;
     try {
-      const value = event.value;
-      await signUpRequest({
-        name: value.name,
-        email: value.email,
+      const user = await loginRequest({
+        identity: value.email,
         password: value.password,
       });
+      dispatch(userAdded({ user }))
       navigate("/home");
     } catch (e: any) {
-      setServerError(e.response.data.message);
+      setServerError(e.response.data.message)
     }
+    
+  };
+
+  const onCancel = () => {
+    if (serverError) {
+      setServerError("")
+    }
+    setEmail("");
+    setPassword("");
   };
 
   return (
     <Box fill align="center" justify="start" margin={{ top: "large" }}>
-      <Heading size="medium">Sign Up</Heading>
+      <Heading size="medium">Log in</Heading>
       <Box width="medium">
-        <Form onReset={() => {}} onSubmit={onSubmit}>
-          <FormField label="Name" name="name" required>
-            <TextInput name="name" value={name} onChange={onChange(setName)} />
-          </FormField>
+        <Form onReset={onCancel} onSubmit={onSubmit}>
           <FormField label="Email" name="email" required>
             <MaskedInput
               name="email"
@@ -102,8 +116,8 @@ export const SignUp = () => {
         </Box>
       )}
       <Paragraph size="medium" textAlign="center" margin={{ top: "medium" }}>
-        If you already have an account click{" "}
-        <RoutedAnchor path="/login" label="here" />.
+        Or, if you need to sign up click{" "}
+        <RoutedAnchor path="/sign-up" label="here" />.
       </Paragraph>
     </Box>
   );

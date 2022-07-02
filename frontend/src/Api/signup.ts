@@ -9,6 +9,6 @@ export const signUpRequest = ({ name, email, password}: ISignUpRequest) => {
   return axiosRequest({
     method: "post",
     url: "/api/user",
-    body: { name, email, password }
+    body: { username: name, email, password }
   })
 }
