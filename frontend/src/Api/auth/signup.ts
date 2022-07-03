@@ -1,4 +1,4 @@
-import axiosRequest from "./request"
+import axiosRequest from "../request"
 
 interface ISignUpRequest {
   name: string,

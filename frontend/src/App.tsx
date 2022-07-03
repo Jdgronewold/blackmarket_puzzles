@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { AppHeader } from "Components/AppBar/AppBar";
 import AxiosInterceptors from "Components/Axios/AxiosInterceptors";
+import { CreatePuzzle } from "Components/Puzzle/CreatePuzzle";
 import { Grommet } from "grommet";
 import { Home } from "Components/Home/Home";
 import { Login } from "Components/Authentication/Login";
@@ -25,11 +26,10 @@ function App() {
               <Route path="/splash" element={<SplashPage />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/home" element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }/>
+              <Route element={<ProtectedRoute />}>
+                <Route path="/home" element={<Home />}/>
+                <Route path="/create-puzzle" element={<CreatePuzzle />}/>
+              </Route>
               <Route path="*" element={<MissingPage />} />
             </Routes>
           </BrowserRouter>

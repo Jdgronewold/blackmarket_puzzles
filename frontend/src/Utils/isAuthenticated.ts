@@ -1,5 +1,8 @@
 
 
 export const isAuthenticated = () => {
-  return !!sessionStorage.getItem("accessToken")
+  const accessToken = sessionStorage.getItem("accessToken") 
+  const user = sessionStorage.getItem("user") 
+
+  return accessToken && user && JSON.parse(user).id
 }

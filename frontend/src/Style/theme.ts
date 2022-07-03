@@ -1,4 +1,6 @@
-export const theme = {
+import { ThemeType } from "grommet";
+
+export const theme: ThemeType = {
   global: {
     colors: {
       brand: '#228BE6',
@@ -9,4 +11,9 @@ export const theme = {
       height: '20px',
     },
   },
+  anchor: {
+    hover: {
+      textDecoration: "none"
+    }
+  }
 };

@@ -1,5 +1,5 @@
+import { AddCircle, Login, Logout, Menu as MenuIcon, UserAdd } from "grommet-icons"
 import { Anchor, Box, Header, Menu, Paragraph, ResponsiveContext } from 'grommet';
-import { Login, Logout, Menu as MenuIcon, UserAdd } from "grommet-icons"
 
 import { isAuthenticated } from 'Utils/isAuthenticated';
 import { logout } from 'Utils/logout';
@@ -15,7 +15,9 @@ const AppBar = () => {
   return (
     <Header background="dark-1" pad="medium">
         <Box direction="row" align="center" gap="small">
-          <Paragraph size='large'>Blackmarket puzzles</Paragraph>
+          <Anchor href="/home">
+           <Paragraph size='large'>Blackmarket puzzles</Paragraph>
+          </Anchor>
         </Box>
         <ResponsiveContext.Consumer>
           {(responsive) =>
@@ -24,7 +26,8 @@ const AppBar = () => {
               <Menu
               icon={<MenuIcon />}
               items={[
-                { label: <Anchor href="/" label="Log out" icon={<Logout />}/>, onClick: {logoutAction}},
+                { label: <Anchor href="/create-puzzle" label="Add Puzzle" icon={<AddCircle />}/>},
+                { label: <Anchor href="/" label="Log out" icon={<Logout />}/>, onClick: logoutAction},
               ]}
             />
             ): ( // responsive === 'small'

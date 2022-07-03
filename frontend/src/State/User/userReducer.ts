@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { User } from 'Types/User'
+import { fetchUser } from './userAsyncActions'
 
 export interface IUserState {
   user: User
@@ -24,6 +25,13 @@ const userSlice = createSlice({
     userRemoved(state, action) {
       state = { user: null}
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      console.log(action.payload);
+      
+      state.user = action.payload
+    })
   }
 })
 

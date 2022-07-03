@@ -4,7 +4,7 @@ import { isAuthenticated } from "Utils/isAuthenticated";
 
 interface IProtectedRouteProps {
   redirectPath?: string,
-  children: JSX.Element,
+  children?: JSX.Element,
   authCheck?: (props?: any) => boolean
 }
 

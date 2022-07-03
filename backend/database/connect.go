@@ -80,6 +80,7 @@ func ConnectDB() {
 
 		fmt.Println("Connection Opened to Database")
 		DB.AutoMigrate(&model.User{})
+		DB.AutoMigrate(&model.Puzzle{})
 		fmt.Println("Database Migrated")
 
 	}

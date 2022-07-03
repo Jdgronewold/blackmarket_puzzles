@@ -14,7 +14,7 @@ import {
 import { Hide, View } from "grommet-icons";
 
 import React from "react";
-import { signUpRequest } from "Api/signup";
+import { signUpRequest } from "Api/auth/signup";
 import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {

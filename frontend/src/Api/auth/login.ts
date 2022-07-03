@@ -1,5 +1,5 @@
 import { User } from "Types/User"
-import axiosRequest from "./request"
+import axiosRequest from "../request"
 
 interface ILoginRequest {
   identity: string,
