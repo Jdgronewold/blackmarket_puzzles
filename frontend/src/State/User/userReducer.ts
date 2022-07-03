@@ -19,7 +19,6 @@ const userSlice = createSlice({
   },
   reducers: {
     userAdded(state, action: PayloadAction<{user: User}>) {
-      // ✅ This "mutating" code is okay inside of createSlice!
       state = { user: action.payload.user }
     },
     userRemoved(state, action) {

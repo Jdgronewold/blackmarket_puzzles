@@ -58,8 +58,6 @@ func ConnectDB() {
 		}
 
 		fmt.Println("Connection Opened to Database")
-		DB.AutoMigrate(&model.User{})
-		fmt.Println("Database Migrated")
 		
 	} else {
 		db_user := config.Config("DB_USER")

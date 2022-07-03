@@ -5,6 +5,7 @@ import (
 	"blackmarket_puzzles/database"
 	"blackmarket_puzzles/model"
 	"errors"
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -56,6 +57,11 @@ func Login(c *fiber.Ctx) error {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
+	type ReturnUserData struct {
+		Token string
+		User UserData
+	}
+
 	var input LoginInput
 	var ud UserData
 
@@ -111,5 +117,13 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
+	ud.Password = ""
+	data := ReturnUserData{
+		Token: t,
+		User: ud,
+	}
+
+	fmt.Printf("data: %v\n", data)
+
+	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": data})
 }

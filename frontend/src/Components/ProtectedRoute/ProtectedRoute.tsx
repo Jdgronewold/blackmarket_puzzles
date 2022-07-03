@@ -1,21 +1,18 @@
 import { Navigate, Outlet } from "react-router-dom";
 
+import { isAuthenticated } from "Utils/isAuthenticated";
+
 interface IProtectedRouteProps {
   redirectPath?: string,
   children: JSX.Element,
   authCheck?: (props?: any) => boolean
 }
 
-const defaultAuthCheck = () => {
-  return !!sessionStorage.getItem("accessToken")
-}
-
 export const ProtectedRoute = ({
-  authCheck = defaultAuthCheck,
+  authCheck = isAuthenticated,
   redirectPath = '/splash',
   children,
 }: IProtectedRouteProps) => {
-console.log(authCheck());
 
   if (!authCheck()) {
     return <Navigate to={redirectPath} replace />;

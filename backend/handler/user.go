@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"blackmarket_puzzles/config"
 	"blackmarket_puzzles/database"
 	"blackmarket_puzzles/model"
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
@@ -58,6 +60,11 @@ func CreateUser(c *fiber.Ctx) error {
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Name    string `json:"name"`
+		Id 			uint 
+	}
+	type ReturnUserData struct {
+		Token string
+		User NewUser
 	}
 
 	db := database.DB
@@ -78,12 +85,31 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user", "data": err})
 	}
 
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+	claims["username"] = user.Username
+	claims["user_id"] = user.ID
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+
+	t, err := token.SignedString([]byte(config.Config("SECRET")))
+
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
 	newUser := NewUser{
 		Email:    user.Email,
 		Username: user.Username,
+		Id: user.ID,
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
+	returnedUserData := ReturnUserData{
+		Token: t,
+		User: newUser,
+	}
+
+	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": returnedUserData})
 }
 
 // UpdateUser update user

@@ -1,7 +1,17 @@
-import { Anchor, Box, Header, Menu, Nav, Paragraph, ResponsiveContext } from 'grommet';
-import { Menu as MenuIcon, User, UserAdd } from "grommet-icons"
+import { Anchor, Box, Header, Menu, Paragraph, ResponsiveContext } from 'grommet';
+import { Login, Logout, Menu as MenuIcon, UserAdd } from "grommet-icons"
+
+import { isAuthenticated } from 'Utils/isAuthenticated';
+import { logout } from 'Utils/logout';
+import { useDispatch } from 'react-redux';
+import { userRemoved } from "../../State/User/userReducer"
 
 const AppBar = () => {
+  const dispatch = useDispatch()
+  const logoutAction = () => {
+    logout()
+    dispatch(userRemoved)
+  }
   return (
     <Header background="dark-1" pad="medium">
         <Box direction="row" align="center" gap="small">
@@ -9,19 +19,22 @@ const AppBar = () => {
         </Box>
         <ResponsiveContext.Consumer>
           {(responsive) =>
-            true ? ( // responsive === 'small'
+            isAuthenticated() ? 
+            (
               <Menu
+              icon={<MenuIcon />}
+              items={[
+                { label: <Anchor href="/" label="Log out" icon={<Logout />}/>, onClick: {logoutAction}},
+              ]}
+            />
+            ): ( // responsive === 'small'
+                <Menu
                 icon={<MenuIcon />}
                 items={[
-                  { label: <Anchor href="/sign-up" label="SignUp" icon={<UserAdd />}/>, onClick: () => {} },
-                  { label: <Anchor href="/login" label="Login" icon={<User/>}/>, onClick: () => {} },
+                  { label: <Anchor href="/sign-up" label="Sign Up" icon={<UserAdd />}/>, onClick: () => {} },
+                  { label: <Anchor href="/login" label="Login" icon={<Login/>}/>, onClick: () => {} },
                 ]}
               />
-            ) : (
-              <Nav direction="row">
-                <Anchor href="/sign-up" label="SignUp" icon={<UserAdd />}/>
-                <Anchor href="/login" label="Login" icon={<User/>}/>
-              </Nav>
             )
           }
         </ResponsiveContext.Consumer>
