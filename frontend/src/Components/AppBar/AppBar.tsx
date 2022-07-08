@@ -3,11 +3,11 @@ import { Anchor, Box, Header, Menu, Paragraph, ResponsiveContext } from 'grommet
 
 import { isAuthenticated } from 'Utils/isAuthenticated';
 import { logout } from 'Utils/logout';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "State/store";
 import { userRemoved } from "../../State/User/userReducer"
 
 const AppBar = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const logoutAction = () => {
     logout()
     dispatch(userRemoved)

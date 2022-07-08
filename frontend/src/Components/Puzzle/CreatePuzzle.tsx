@@ -11,14 +11,17 @@ import {
   TextInput,
 } from "grommet";
 import { IPuzzle, PuzzleCondition } from "Types/Puzzle";
+import { useAppDispatch, useAppSelector } from "State/store";
 
 import React from "react";
-import { createPuzzle } from "Api/puzzles/createPuzzle";
-import { getUser } from "State/User/userActions";
-import { useSelector } from "react-redux";
+import { createPuzzle } from "State/Puzzle/puzzleAsyncActions";
+import { getUser } from "State/User/userSelectors";
+import { useNavigate } from "react-router-dom";
 
 export const CreatePuzzle = () => {
-  const { user } = useSelector(getUser);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { user } = useAppSelector(getUser);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [count, setCount] = React.useState(1000);
@@ -53,10 +56,11 @@ export const CreatePuzzle = () => {
         count,
         missingPieces,
         puzzleCondition,
-        owner_id: user.id,
+        owner_id: user?.ID,
       };
 
-      await createPuzzle(puzzle);
+      await dispatch(createPuzzle(puzzle))
+      navigate("/home")
     } catch (e: any) {
       console.log(e.response.data.message);
     }

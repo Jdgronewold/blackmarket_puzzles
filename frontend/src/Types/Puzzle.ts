@@ -8,6 +8,7 @@ export enum PuzzleCondition {
 }
 
 export interface IPuzzle {
+  ID:               number
   name: 					 	string 						
   description:    	string 						
   count:    			 	number 	 						

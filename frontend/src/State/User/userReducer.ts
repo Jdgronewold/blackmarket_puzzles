@@ -8,7 +8,7 @@ export interface IUserState {
 }
 
 const userSlice = createSlice({
-  name: 'todos',
+  name: 'user',
   initialState: () => {
     const stringUser = sessionStorage.getItem("user")
     if (stringUser) {

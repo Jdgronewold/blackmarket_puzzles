@@ -15,7 +15,7 @@ import { Hide, View } from "grommet-icons";
 
 import React from "react";
 import { loginRequest } from "Api/auth/login";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "State/store";
 import { useNavigate } from "react-router-dom";
 import { userAdded } from "State/User/userReducer";
 
@@ -25,7 +25,7 @@ export const Login = () => {
   const [revealPassword, setRevealPassword] = React.useState(false);
   const [serverError, setServerError] = React.useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const navigate = useNavigate();
 

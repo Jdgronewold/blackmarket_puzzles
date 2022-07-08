@@ -1,25 +1,30 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useAppDispatch, useAppSelector } from "State/store"
 
-import { AppDispatch } from "State/store"
+import { Box } from "grommet"
+import { PuzzleList } from "Components/Puzzle/PuzzleList"
 import { User } from "Types/User"
 import { fetchUser } from "State/User/userAsyncActions"
-import { getUser } from "State/User/userActions"
+import { getPuzzlesForOwner } from "State/Puzzle/PuzzleSelectors"
 import { useEffect } from "react"
 
 export const Home = () => {
-  const { user } = useSelector(getUser)
-  const dispatch: AppDispatch = useDispatch()
+  const puzzles = useAppSelector(getPuzzlesForOwner)
+  const dispatch = useAppDispatch()
   
   useEffect(() => {
     const userString = sessionStorage.getItem("user")
     if (userString) {
       const user: User = JSON.parse(userString)
-      dispatch(fetchUser(user.id))
+      dispatch(fetchUser(user.ID))
     }
    
   }, [dispatch])
   
+  console.log(puzzles);
+  
   return (
-    <div>{user.username}</div>
+    <Box fill>
+      <PuzzleList puzzles={puzzles} />
+    </Box>
   )
 }
