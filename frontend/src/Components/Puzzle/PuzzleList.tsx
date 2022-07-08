@@ -11,6 +11,7 @@ export const PuzzleList = ({ puzzles}: { puzzles: IPuzzle[] }) => {
         align="start"
         columns={size !== "small" ? { count: "fill", size: "medium" } : { count: "fit", size: "small"}}
         gap="medium"
+        margin="medium"
       >
         {puzzles.map((puzzle, index) => (
           <PuzzleCard

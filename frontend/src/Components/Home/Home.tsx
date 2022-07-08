@@ -19,9 +19,7 @@ export const Home = () => {
     }
    
   }, [dispatch])
-  
-  console.log(puzzles);
-  
+    
   return (
     <Box fill>
       <PuzzleList puzzles={puzzles} />

@@ -7,10 +7,11 @@ import { Grommet } from "grommet";
 import { Home } from "Components/Home/Home";
 import { Login } from "Components/Authentication/Login";
 import { MissingPage } from "Components/404/404Page";
-import { ProtectedRoute } from "Components/ProtectedRoute/ProtectedRoute";
+import { ProtectedRoute } from "Components/Routes/ProtectedRoute";
 import { Provider } from 'react-redux'
 import { SignUp } from "Components/Authentication/SignUp";
 import { SplashPage } from "Components/Splash/splash";
+import { UnProtectedRoute } from "Components/Routes/UnProtectedRoute";
 import store from './State/store'
 import { theme } from "./Style/theme";
 
@@ -22,10 +23,13 @@ function App() {
           <AppHeader />
           <BrowserRouter>
             <Routes>
-              <Route index element={<SplashPage />} />
-              <Route path="/splash" element={<SplashPage />} />
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
+              
+              <Route element={<UnProtectedRoute />}>
+                <Route index element={<SplashPage />} />
+                <Route path="/splash" element={<SplashPage />} />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
               <Route element={<ProtectedRoute />}>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/create-puzzle" element={<CreatePuzzle />}/>

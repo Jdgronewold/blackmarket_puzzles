@@ -52,7 +52,7 @@ func Login(c *fiber.Ctx) error {
 		Password string `json:"password"`
 	}
 	type UserData struct {
-		ID       uint   `json:"id"`
+		ID       uint   `json:"ID"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
