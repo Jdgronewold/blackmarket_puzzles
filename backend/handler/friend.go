@@ -31,7 +31,7 @@ func GetFriendship(c *fiber.Ctx) error {
 	}
 
 	db := database.DB
-	var friendship model.Friendship
+	var friendship model.Friend
 	err := db.Where("user_one_id = ? AND user_two_id = ?", smaller_id, larger_id).Find(&friendship).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No friendship found with ID", "data": nil})
@@ -42,7 +42,7 @@ func GetFriendship(c *fiber.Ctx) error {
 func CreateFriendship(c *fiber.Ctx) error {
 
 	db := database.DB
-	friendship := new(model.Friendship)
+	friendship := new(model.Friend)
 	if err := c.BodyParser(friendship); err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Friendship not made", "data": err})
 
@@ -59,11 +59,11 @@ func CreateFriendship(c *fiber.Ctx) error {
 func GetFriendsForUser(c *fiber.Ctx) error {
 	user_one_id := c.Params("user_id")
 	db := database.DB
-	var friendships []model.Friendship
+	var friendships []model.Friend
 
 	err := db.Where("user_one_id = ? OR user_two_id = ?", user_one_id, user_one_id).Find(&friendships).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		friends := []model.Friendship{}
+		friends := []model.Friend{}
 		return c.JSON(fiber.Map{"status": "success", "message": "Created friendship", "data": friends})
 	}
 

@@ -10,7 +10,7 @@ type Puzzle struct {
 	Count    			 	int 	 						`json:"count"`
 	PuzzleCondition PuzzleCondition		`json:"puzzleCondition"`
 	MissingPieces 	bool							`json:"missingPieces"`
-	Owner 					User 							`gorm:"foreignKey:owner_id"`
+	Owner 					*User 						`gorm:"foreignKey:Owner_id"`
 	Owner_id				uint 							`json:"owner_id"`
 }
 

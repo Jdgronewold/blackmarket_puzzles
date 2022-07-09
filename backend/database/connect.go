@@ -73,6 +73,7 @@ func ConnectDB() {
 		dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_password, address, db_name)
 
 		DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		
 
 		if err != nil {
 			panic("failed to connect database")
@@ -81,6 +82,7 @@ func ConnectDB() {
 		fmt.Println("Connection Opened to Database")
 		DB.AutoMigrate(&model.User{})
 		DB.AutoMigrate(&model.Puzzle{})
+		DB.SetupJoinTable(&model.User{}, "Friends", &model.Friend{})
 		fmt.Println("Database Migrated")
 
 	}
