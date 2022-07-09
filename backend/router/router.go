@@ -25,10 +25,13 @@ func SetupRoutes(app *fiber.App) {
 	user.Patch("/:id", middleware.Protected(), handler.UpdateUser)
 	user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
 
-	// User
+	// Puzzle
 	puzzle := api.Group("/puzzle")
 	puzzle.Get("/:id", middleware.Protected(), handler.GetPuzzle)
 	puzzle.Post("/", middleware.Protected(), handler.CreatePuzzle)
-	puzzle.Patch("/:id", middleware.Protected(), handler.UpdatePuzzle)
-	puzzle.Delete("/:id", middleware.Protected(), handler.DeletePuzzle)
+
+	// Friendship
+	friendship := api.Group("/friend")
+	friendship.Get("/:user_one_id/:user_two_id", middleware.Protected(), handler.GetFriendship)
+	friendship.Post("/", middleware.Protected(), handler.CreateFriendship)
 }
