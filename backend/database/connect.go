@@ -3,7 +3,9 @@ package database
 import (
 	"blackmarket_puzzles/config"
 	"blackmarket_puzzles/model"
+	"blackmarket_puzzles/seed"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -79,25 +81,20 @@ func ConnectDB() {
 			panic("failed to connect database")
 		}
 
+		
+
 		fmt.Println("Connection Opened to Database")
-		DB.AutoMigrate(&model.User{})
-		DB.AutoMigrate(&model.Puzzle{})
-		DB.SetupJoinTable(&model.User{}, "Friends", &model.Friend{})
+		DB.AutoMigrate(&model.User{}, &model.Puzzle{}, &model.Friend{})
+		DB.AutoMigrate()
+		DB.AutoMigrate()
+
+		if DB.Migrator().HasTable(&model.User{}) {
+			if err := DB.First(&model.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+				seed.SeedData(DB)
+			}
+		}
+		
 		fmt.Println("Database Migrated")
 
 	}
-
-	
- 	// dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_password, address, db_name)
-
-	// // dsns := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", )
-	// DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
-	// if err != nil {
-	// 	panic("failed to connect database")
-	// }
-
-	// fmt.Println("Connection Opened to Database")
-	// DB.AutoMigrate(&model.User{})
-	// fmt.Println("Database Migrated")
 }

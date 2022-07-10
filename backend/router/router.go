@@ -32,6 +32,7 @@ func SetupRoutes(app *fiber.App) {
 
 	// Friendship
 	friendship := api.Group("/friend")
+	friendship.Get("/:user_id", middleware.Protected(), handler.GetFriendsForUser)
 	friendship.Get("/:user_one_id/:user_two_id", middleware.Protected(), handler.GetFriendship)
 	friendship.Post("/", middleware.Protected(), handler.CreateFriendship)
 }

@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 export const CreatePuzzle = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { user } = useAppSelector(getUser);
+  const user = useAppSelector(getUser);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [count, setCount] = React.useState(1000);
